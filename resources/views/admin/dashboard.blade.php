@@ -20,8 +20,28 @@
 @section('body')
 <!-- Main row -->
 <div class="row">
-    <div class="container-fluid"></div>
-    Dashboard
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-9">
+                <h5>"Sometimes it's better to leave something
+                    alone,to pause,and that's very true of programming."-> R B JHA
+                </h5>
+            </div>
+        </div>
+
+    </div>
+    <div class="image">
+        <img src="{{ asset('assets/css/images/user2-160x160.jpg') }}" class="center" alt="User Image">
+    </div>
+    <style>        
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+
+
 </div>
 <!-- /.row (main row) -->
 

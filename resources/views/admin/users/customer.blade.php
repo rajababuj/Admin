@@ -183,7 +183,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            // Add custom validation methods (if needed) outside $(document).ready()
             jQuery.validator.addMethod("lettersOnly", function(value, element) {
                 return this.optional(element) || /^[a-zA-Z\s]+$/i.test(value);
             }, "Name must contain alphabets only.");
@@ -457,7 +456,7 @@
                     if (res.assigned_trainer_id) {
                         $('#trainer_id').val(res.assigned_trainer_id);
                     }
-                   
+
                 }
             });
         }
@@ -564,7 +563,9 @@
             showClose: true,
         });
     </script>
+    <!-- Customer script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
 
 </body>
 

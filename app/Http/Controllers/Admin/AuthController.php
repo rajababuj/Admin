@@ -24,16 +24,16 @@ class AuthController extends Controller
 
     public function postLogin(LoginRequest $request){
         // dd($request->all());
-        // $validated=Auth::guard('admin')->attempt([
-        //     'email'=>$request->email,
-        //     'password'=>$request->password,
-        // ]);
-        // // dd(Hash::make($request->password));
-        // if($validated){
-        //     return redirect()->route('admin.dashboard')->with('success', 'success Login Successfully');
-        // }else{
-        //     return redirect()->back()->with('error', 'Invalid credentials');
-        // }
+        $validated=Auth::guard('admin')->attempt([
+            'email'=>$request->email,
+            'password'=>$request->password,
+        ]);
+        // dd(Hash::make($request->password));
+        if($validated){
+            return redirect()->route('admin.dashboard')->with('success', 'success Login Successfully');
+        }else{
+            return redirect()->back()->with('error', 'Invalid credentials');
+        }
 
         
     

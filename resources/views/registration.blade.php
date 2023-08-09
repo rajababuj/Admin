@@ -9,9 +9,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets\css\material-design-iconic-font.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets\css\style.css') }}">
-    <link rel="stylsheet" href="{{ asset('assets\image\signin-image.jpg') }}">
-    <link rel="stylsheet" href="{{ asset('assets\fonts\Material-Design-Iconic-Fontd1f1.ttf') }}">
-    <link rel="stylsheet" href="{{ asset('assets\fonts\poppins\poppins-v5-latin-regular') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"> 
 
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -99,18 +97,34 @@
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="name" id="name" placeholder="Your Name" />
+                                <!-- @if($errors->has('name'))
+                                <div class="error">{{ $errors->first('name') }}</div>
+                                @endif -->
                             </div>
+                        
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
                                 <input type="email" name="email" id="email" placeholder="Your Email" />
+                                @if (session('message'))
+                                    <div class="alert" style="color: red;">{{ session('message') }}</div>
+                                @endif
+                                <!-- @if($errors->has('email'))
+                                <div class="error">{{ $errors->first('email') }}</div>
+                                @endif -->
                             </div>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" name="password" id="password" placeholder="Password" />
+                                <!-- @if($errors->has('password'))
+                                <div class="error">{{ $errors->first('password') }}</div>
+                                @endif -->
                             </div>
                             <div class="form-group">
                                 <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
                                 <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" />
+                                <!-- @if($errors->has('re_pass'))
+                                <div class="error">{{ $errors->first('re_pass') }}</div>
+                                @endif -->
                             </div>
                             <div class="form-group">
                                 <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
@@ -120,13 +134,20 @@
                                 <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
                             </div>
                         </form>
+                        <div class="social-login">
+                            <span class="social-label">Or login with</span>
+                            <ul class="socials">
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+
+                                <li><a href="authorized/google"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="signup-image">
 
                         <img src="{{ asset('assets/css/images/signup-image.jpg') }}">
-
-                        <!-- <figure><img src="css/images/signup-image.jpg" alt="sing up image"></figure> -->
-                        <a href="#" class="signup-image-link">I am already member</a>
+                        <a href="login" class="signup-image-link">I am already member</a>
                     </div>
                 </div>
             </div>
@@ -147,7 +168,7 @@
             gtag('config', 'UA-23581568-13');
         </script>
         <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8b253dfea2ab4077af8c6f58422dfbfd1689876627854" integrity="sha512-bjgnUKX4azu3dLTVtie9u6TKqgx29RBwfj3QXYt5EKfWM/9hPSAI/4qcV5NACjwAo8UtTeWefx6Zq5PHcMm7Tg==" data-cf-beacon='{"rayId":"7ed288bacc7aa762","version":"2023.7.0","b":1,"token":"cd0b4b3a733644fc843ef0b185f98241","si":100}' crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     </div>
     <script>
@@ -158,11 +179,11 @@
                     name: {
                         required: true,
                         maxlength: 50,
-                        lettersOnly: true
+                        // lettersOnly: true
                     },
                     email: {
                         required: true,
-                        email: true
+                        email: true,
                     },
                     password: {
                         required: true,
@@ -170,24 +191,34 @@
                     },
                     re_pass: {
                         required: true,
-                        minlength: 5
+                        minlength: 5,
+                        equalTo: "#password"
                     }
                 },
                 messages: {
                     name: {
-                        required: "This name field is required"
+                        required: "This name field is required.",
+                        maxlength: "Name must not exceed 10 characters.",
+                        // lettersOnly: "Name can only contain letters and spaces."
                     },
                     email: {
-                        required: "this is a valid email"
+                        required: "This email field is required.",
+                        email: "Please enter a valid email address.",
+                       
                     },
                     password: {
-                        required: "This password field is required"
+                        required: "This password field is required.",
+                        minlength: "Password must be at least 9 characters long."
                     },
                     re_pass: {
-                        required: "This re-password field is required"
-                    },
-
+                        required: "This re-password field is required.",
+                        minlength: "Password must be at least 9 characters long.",
+                        equalTo: "Password and re-password must match."
+                    }
                 },
+                errorPlacement: function(error, element) {
+                    error.insertAfter(element);
+                }
 
             });
         });

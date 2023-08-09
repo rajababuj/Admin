@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\UserRegistrationRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -12,20 +13,21 @@ class RegistrationController extends Controller
         return view('registration');
     }
 
-
     public function store(UserRegistrationRequest $request)
     {
-        $this->validate(request(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-        
-        $user = User::create(request(['name', 'email', 'password']));
-        
-        auth()->login($user);
-        
-        return view('dashboard', compact('user'));
-    }
-}
+        $existingUser = User::where('email', $request->email)->first();
+        // dd($existingUser);
+        if ($existingUser) {
 
+            
+            return redirect()->route('user.register')->with('message','A user with this email address already exists.');
+        }
+
+        $user = User::create(request(['name', 'email', 'password']));
+
+        auth()->login($user);
+
+        return redirect()->route('dashboard');
+    }
+    
+}

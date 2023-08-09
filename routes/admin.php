@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\TrainingController;
 use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\Admin\TrainerController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\WorkerController;
+use App\Http\Controllers\Admin\ProductController;
 
 
 
@@ -54,6 +56,18 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
   Route::post('/customer/update', [CustomerController::class, 'update'])->name('customer.update');
   Route::delete('customer/destroy/{id}', [CustomerController::class, 'destroy'])->name('customer.destroy');
   Route::post('/customer-status-update', 'CustomerController@status_update')->name('customer.status.update');
+
+  Route::get('worker', [WorkerController::class, 'index'])->name('worker.index');
+  Route::post('worker', [WorkerController::class, 'store'])->name('worker.store');
+
+  Route::get('product', [productController::class, 'index'])->name('product.index');
+  Route::post('product', [ProductController::class, 'store'])->name('product.store');
+  Route::get('product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+  Route::post('/product/update', [ProductController::class, 'update'])->name('product.update');
+  Route::delete('product/destroy/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+  Route::post('/product-status-update', 'ProductController@status_update')->name('product.status.update');
+
+
 });
 
 

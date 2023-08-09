@@ -5,10 +5,9 @@
 <!DOCTYPE html>
 
 <head>
+    <!-- Membership Link -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-
 </head>
 
 <body>
@@ -427,6 +426,7 @@
             });
         }
     </script>
+    <!-- Membership script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 </body>
 

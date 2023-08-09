@@ -29,3 +29,4 @@ class UserAuth
         return redirect()->route('user.login')->with('Success',);
     }
 }
+

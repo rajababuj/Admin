@@ -24,18 +24,18 @@ Route::get('/', function () {
 });
 
 Route::prefix('user')->group(function () {
-    Route::get('/register', 'RegistrationController@index');
-    Route::post('/register', 'RegistrationController@store')->middleware('web');
+    Route::get('/register', 'RegistrationController@index')->name('user.register');
+    Route::post('/register', 'RegistrationController@store');
 
     Route::get('/login', 'LoginController@index')->name('login');
     Route::post('/login', 'LoginController@login')->name('login.submit');
-    Route::post('/logout', 'LoginController@logout')->name('logout');
+
+    Route::group(['middleware' => 'auth:web'], function () {
+        Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+        Route::post('/logout', 'LoginController@logout')->name('logout');   
+    });
 });
-
-Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-
-// Route::get('authorized/google', 'LoginController@index')->name('redirectToGoogle');
-// Route::get('authorized/google/callback', 'LoginController@index')->name('handleGoogleCallback');
-
 Route::get('authorized/google', [LoginController::class, 'redirectToGoogle']);
 Route::get('authorized/google/callback', [LoginController::class, 'handleGoogleCallback']);
+Route::post('/add-to-cart', 'CartController@addToCart')->name('add-to-cart');
+

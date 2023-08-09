@@ -11,6 +11,11 @@ use Exception;
 
 class LoginController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+
     public function index()
     {
         return view('login');
@@ -19,14 +24,15 @@ class LoginController extends Controller
     public function login(UserLoginRequest $request)
     {
         $credentials = $request->validate([
-            'name' => 'required',
+            'email' => 'required',
             'password' => 'required',
         ]);
         
         if (Auth::guard('web')->attempt($credentials)) {
-            return redirect()->to('dashboard');
+            return redirect()->route('dashboard');
         } else {
-            return back()->withErrors('The email or password is incorrect, please try again');
+            // return back()->withErrors('The email or password is incorrect, please try again');
+            return redirect()->route('login')->with('message','The email or password is incorrect, please try again.');
         }
     }
 
@@ -63,7 +69,7 @@ class LoginController extends Controller
                 Auth::login($newUser);
             }
 
-            return redirect()->to('dashboard');
+            return redirect()->to('user/dashboard');
         } catch (Exception $e) {
             \Log::info($e);
         }
