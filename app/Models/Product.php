@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+    protected $table = 'products';
     protected $fillable = ['name', 'category','price','size', 'image','status',];
     
     public function categoryDetail(){
@@ -23,4 +24,5 @@ class Product extends Model
         // Assuming the image is stored in the public folder under 'uploads/image'
         return asset('uploads/image/' . $image);
     }
+    
 }

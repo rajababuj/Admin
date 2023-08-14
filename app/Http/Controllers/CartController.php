@@ -5,105 +5,79 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-
-    public function addToCart(Request $request, Product $product): JsonResponse
+    public function addToCart(Request $request)
     {
         $userId = auth()->user()->id;
+        $productId = request('product_id');
 
         // dd($userId, $product);
         $existingCartItem = Cart::where('user_id', $userId)
-            ->where('product_id', $product->id)
+            ->where('product_id', $productId)
             ->first();
- 
+
         if ($existingCartItem) {
             $existingCartItem->quantity++;
             $existingCartItem->save();
         } else {
             Cart::create([
-             'user_id' => $userId,
-             'product_id' => $product->id,
-             'quantity' => 1,
+                'user_id' => $userId,
+                'product_id' => $productId,
+                'quantity' => 1,
             ]);
         }
- 
-        return response()->json(['success' => true]);
+
+        return response()->json('Product added successfully');
     }
- 
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function Cart()
     {
-        //
+
+        $cartitems = Cart::where('user_id', Auth::id())->with('products')->get();
+        // dd($cartitems);
+        return view('cart', compact('cartitems'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function removeProduct(Request $request)
     {
-        //
-    }
+        $product_id = $request->input('product_id');
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        if (Cart::where('product_id', $product_id)->where('user_id', Auth::id())->exists()) {
+            $cartItem = Cart::where('product_id', $product_id)->where('user_id', Auth::id())->first();
+            $cartItem->delete();
+            return response()->json(['status' => "Product Deleted Successfully"]);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json(['status' => "Product not found in cart."]);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

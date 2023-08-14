@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Middleware;
-use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Size;
+use App\Models\Category;
 
 class DashboardController extends Controller
 {
 
     public function index()
     {
-        return view('dashboard');
+        $product=Product::all();
+        $sizes = Size::all();
+        $categorys = Category::all();
+        return view('dashboard',compact('product', 'sizes', 'categorys'));
     }
 }

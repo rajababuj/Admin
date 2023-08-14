@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
 
-
 // use App\Http\Controllers\Admin;
 
 
@@ -38,4 +37,10 @@ Route::prefix('user')->group(function () {
 Route::get('authorized/google', [LoginController::class, 'redirectToGoogle']);
 Route::get('authorized/google/callback', [LoginController::class, 'handleGoogleCallback']);
 Route::post('/add-to-cart', 'CartController@addToCart')->name('add-to-cart');
+
+Route::get('/cart', 'CartController@Cart')->name('viewcart');
+Route::delete('/remove-from-cart', [CartController::class, 'removeProduct'])->name('remove-from-cart');
+
+
+
 
